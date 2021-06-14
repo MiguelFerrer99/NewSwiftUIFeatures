@@ -10,6 +10,7 @@ import SwiftUI
 struct ImageView: View {
     
     @State var url = URL(string: "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png")!
+    @State var showSheet = false
     
     var body: some View {
         
@@ -31,6 +32,7 @@ struct ImageView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     ControlGroup {
                         Button {
+                            showSheet.toggle()
                             print("User details")
                         } label: {
                             Image(systemName: "person.fill")
@@ -38,6 +40,9 @@ struct ImageView: View {
                     }
                 }
             }
+        }.sheet(isPresented: self.$showSheet) {
+            Sheet(showSheet: self.$showSheet)
+                .interactiveDismissDisabled(true)
         }
     }
 }

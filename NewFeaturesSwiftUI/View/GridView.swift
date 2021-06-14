@@ -15,16 +15,19 @@ struct GridView: View {
     var body: some View {
         NavigationView {
             VStack {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumValue))], spacing: 20) {
-                    ForEach(1...10, id: \.self) { number in
-                        Image(systemName: "\(number).circle.fill")
-                    }
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumValue))], spacing: 20) {
+                        ForEach(1...50, id: \.self) { number in
+                            Image(systemName: "1.circle.fill")
+                        }
+                    }.padding()
                 }
                 HStack {
-                    Slider(value: self.$minimumValue, in: 20...500)
+                    Slider(value: self.$minimumValue, in: 10...200)
                     Text("Minimum value: \(minimumValue)")
-                }
+                }.padding()
             }
+            .navigationBarTitle(Text("Grid"))
         }
     }
 }

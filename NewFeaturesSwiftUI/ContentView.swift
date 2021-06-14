@@ -16,23 +16,19 @@ struct ContentView: View {
             UsersView().tabItem {
                 Image(systemName: "person.circle.fill")
                 Text("Users")
-            }
-            .badge(numberOfNotifications)
+            }.badge(numberOfNotifications)
             ImageView().tabItem {
                 Image(systemName: "photo.fill")
                 Text("AsyncImage")
-            }
-            .badge(numberOfNotifications)
+            }.badge(numberOfNotifications)
             KeyboardView().tabItem {
                 Image(systemName: "keyboard.fill")
                 Text("Keyboard")
-            }
-            .badge(numberOfNotifications)
+            }.badge(numberOfNotifications)
             GridView().tabItem {
                 Image(systemName: "rectangle.3.offgrid.fill")
                 Text("Grid")
-            }
-            .badge(numberOfNotifications)
+            }.badge(numberOfNotifications)
         }
     }
 }

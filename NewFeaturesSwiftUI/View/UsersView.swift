@@ -11,13 +11,14 @@ struct UsersView: View {
 
     @ObservedObject var viewModel = ViewModel()
     @State var searchText = ""
-    @State var showSheet = false
     
     var body: some View {
         NavigationView {
             List {
                 Section(header: Text("Users")) {
-                    ForEach(viewModel.users) { user in
+                    ForEach(viewModel.users.filter{user in
+                        searchText == "" ? true : user.name.lowercased().contains(searchText.lowercased())
+                    }) { user in
                         VStack(alignment: .leading, spacing: 4) {
                             Text(user.name)
                             Text(user.email)
@@ -46,16 +47,6 @@ struct UsersView: View {
                         }
                     }
                 }.headerProminence(.increased)
-                Section(header: Text("Others")) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Miguel")
-                        Text("quediuen@gmail.com")
-                    }
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Joan")
-                        Text("agarrala@gmail.com")
-                    }
-                }.headerProminence(.increased)
                 .listStyle(.insetGrouped)
             }
             .navigationTitle(Text("Users"))
@@ -64,9 +55,9 @@ struct UsersView: View {
             })
             .searchable("Search User", text: self.$searchText, placement: .navigationBarDrawer(displayMode: .always), suggestions: {
                 ForEach(viewModel.users.filter{user in
-                    searchText == "" ? true : user.email.lowercased().contains(searchText.lowercased())
+                    searchText == "" ? true : user.name.lowercased().contains(searchText.lowercased())
                 }) { user in
-                    Text(user.email)
+                    Text(user.name)
                         .searchCompletion(user.name)
                 }
             })
@@ -74,21 +65,6 @@ struct UsersView: View {
             async {
                 await viewModel.getUsers()
             }
-        }
-        .safeAreaInset(edge: .bottom) {
-            Button {
-                showSheet.toggle()
-            } label: {
-                Text("Open sheet").foregroundColor(.white).padding()
-            }.frame(width: UIScreen.main.bounds.width - 100)
-                .background(Color.blue)
-                .clipShape(Capsule())
-                .padding(.bottom)
-                
-        }
-        .sheet(isPresented: self.$showSheet) {
-            Sheet(showSheet: self.$showSheet)
-                .interactiveDismissDisabled(true)
         }
     }
 }
